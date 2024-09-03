@@ -12,9 +12,9 @@
           <h1 class="text-[#dfa027] mb-2 text-2xl">Change Password</h1>
           <hr class="w-60 h-1 mb-4 bg-[#dfa027] border-0 rounded" />
         </div>
-        <div class="grid grid-cols-1 lg:grid-cols-2">
+        <div>
           <!-- Current Password Field -->
-          <div class="relative mb-4 mr-2">
+          <div class="relative w-1/2 mb-4">
             <input :type="showPassword ? 'text' : 'password'" id="currentPassword" v-model="currentPassword"
               class="block px-4 py-4 pt-4 w-full text-sm text-white bg-transparent rounded-xl border-1 border-gray-500 appearance-none focus:outline-none focus:ring-0 focus:border-[#dfa027] peer"
               placeholder=" " />
@@ -29,7 +29,7 @@
           </div>
 
           <!-- New Password Field -->
-          <div class="relative mb-4">
+          <div class="relative w-1/2 mb-4">
             <input :type="showRePassword ? 'text' : 'password'" id="newPassword" v-model="newPassword"
               class="block px-4 py-4 pt-4 w-full text-sm text-white bg-transparent rounded-xl border-1 border-gray-500 appearance-none focus:outline-none focus:ring-0 focus:border-[#dfa027] peer"
               placeholder=" " />
@@ -39,6 +39,21 @@
             </label>
             <button @click="toggleShowRePassword" class="absolute right-4 top-4 text-gray-500 hover:text-gray-300">
               <i v-if="showRePassword" class="fa-regular fa-eye-slash fa-lg text-gray-400"></i>
+              <i v-else class="fa-regular fa-eye fa-lg text-gray-400"></i>
+            </button>
+          </div>
+
+          <!-- Confirm Password Field -->
+          <div class="relative w-1/2 mb-4">
+            <input :type="showre_password ? 'text' : 'password'" id="re_password" v-model="re_password"
+              class="block px-4 py-4 pt-4 w-full text-sm text-white bg-transparent rounded-xl border-1 border-gray-500 appearance-none focus:outline-none focus:ring-0 focus:border-[#dfa027] peer"
+              placeholder=" " />
+            <label for="re_password"
+              class="absolute text-sm text-gray-500 duration-300 transform -translate-y-4 scale-75 top-2 z-10 origin- bg-black px-2 peer-focus:px-4 peer-focus:text-[#dfa027] peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:top-1/2 peer-focus:top-2 peer-focus:scale-75 peer-focus:-translate-y-4 rtl:peer-focus:translate-x-1/4 rtl:peer-focus:left-auto start-1">
+              Confirm Password
+            </label>
+            <button @click="toggleShowre_password" class="absolute right-4 top-4 text-gray-500 hover:text-gray-300">
+              <i v-if="showre_password" class="fa-regular fa-eye-slash fa-lg text-gray-400"></i>
               <i v-else class="fa-regular fa-eye fa-lg text-gray-400"></i>
             </button>
           </div>
@@ -52,8 +67,7 @@
         <!-- Toast for Errors and Success -->
         <div class="toast toast-top toast-center mt-20 z-50">
           <div v-if="showErrorToast" id="toast-danger" class="alert alert-info bg-red-700 text-white text-center">
-            <span><i class="fa-solid fa-circle-xmark text-white mr-2 fa-2xl"></i>Error in Updating check your
-              data</span>
+            <span><i class="fa-solid fa-circle-xmark text-white mr-2 fa-2xl"></i>{{ errorMessage }}</span>
           </div>
           <div v-if="showSuccessToast" id="toast-success"
             class="alert alert-success bg-green-700 text-white text-center">
@@ -71,6 +85,7 @@
   </div>
 </template>
 
+
 <script>
 import axios from "axios";
 
@@ -80,12 +95,15 @@ export default {
     return {
       currentPassword: "",
       newPassword: "",
+      re_password: "",
       showPassword: false,
       showRePassword: false,
+      showre_password: false,
       showErrorToast: false,
       showSuccessToast: false,
       hasAccess: true,
       isLoading: false,
+      errorMessage: ""
     };
   },
 
@@ -124,7 +142,19 @@ export default {
     toggleShowRePassword() {
       this.showRePassword = !this.showRePassword;
     },
+    toggleShowre_password() {
+      this.showre_password = !this.showre_password;
+    },
     changePassword() {
+      if (this.newPassword !== this.re_password) {
+        this.showErrorToast = true;
+        this.errorMessage = "New password and confirm password do not match.";
+        setTimeout(() => {
+          this.showErrorToast = false;
+        }, 3000); // Hide the toast after 3 seconds
+        return;
+      }
+
       try {
         const token = localStorage.getItem("token");
         if (!token) {
@@ -173,6 +203,7 @@ export default {
 
         this.currentPassword = "";
         this.newPassword = "";
+        this.re_password = "";
       } catch (error) {
         console.error(error);
       }
@@ -180,6 +211,7 @@ export default {
   },
 };
 </script>
+
 
 <style scoped>
 .animate-in {

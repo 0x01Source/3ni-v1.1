@@ -1,4 +1,5 @@
 import LoginPage from "@/views/Authentication/LoginPage.vue";
+import ResetPage from "@/views/Authentication/ResetPage.vue";
 import SignupPage from "@/views/Authentication/SignupPage.vue";
 import HomePage from "@/views/HomePage.vue";
 import ProfilePage from "@/views/Profile/ProfilePage.vue";
@@ -32,6 +33,12 @@ const routes = [
     path: "/:username/settings",
     component: SettingsPage,
   },
+  {
+    path: '/password/reset/confirm/:uidb64/:token',
+    name: 'ResetPage',
+    component: ResetPage,
+  },
+  
 ];
 
 const router = createRouter({

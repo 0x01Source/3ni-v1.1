@@ -3,7 +3,9 @@
     <div class="animate-in">
       <div v-if="!hasAccess">
         <div class="bg-black h-screen text-red-600 pt-40 text-bold text-center mx-auto text-2xl font-bold">
-          <div><i class="fa-solid fa-user-xmark mb-5 text-8xl"></i></div>
+          <div>
+            <i class="fa-solid fa-user-xmark mb-5 text-8xl"></i>
+          </div>
           Sorry .. you don't have access to this page.
         </div>
       </div>
@@ -12,48 +14,36 @@
         <button @click="toggleAside" class="toggle-button rounded-full hover:opacity-80 pt-4 pl-2 mt-1 lg:pl-60">
           <i class="fa-solid fa-sliders fa-lg lg:fa-xl text-[#dfa027]"></i>
         </button>
-        <aside :class="{ open: isAsideOpen }" class="aside-menu pt-28 lg:w-80 text-[#dfa027]">
+        <aside :class="{ open: isAsideOpen }" class="aside-menu pt-28 w-full lg:w-80 text-[#dfa027]">
           <ul>
-            <li @click="openComponent('EditinformationComponent')"
-              class="hover:bg-white hover:bg-opacity-10 rounded-lg px-2 py-3 cursor-pointer">
+            <li @click="handleMenuItemClick('EditinformationComponent')" class="hover:bg-white hover:bg-opacity-10 rounded-lg px-2 py-3 cursor-pointer">
               <i class="fa-solid fa-user fa-lg mr-2"></i>
               <span>Information</span>
             </li>
-            <li @click="openComponent('EditsocialComponent')"
-              class="hover:bg-white hover:bg-opacity-10 rounded-lg px-2 py-3 cursor-pointer">
+            <li @click="handleMenuItemClick('EditsocialComponent')" class="hover:bg-white hover:bg-opacity-10 rounded-lg px-2 py-3 cursor-pointer">
               <i class="fa-solid fa-hashtag fa-lg mr-2"></i>Social Media
             </li>
-            <li @click="openComponent('EditlinksComponent')"
-              class="hover:bg-white hover:bg-opacity-10 rounded-lg px-2 py-3 cursor-pointer">
+            <li @click="handleMenuItemClick('EditlinksComponent')" class="hover:bg-white hover:bg-opacity-10 rounded-lg px-2 py-3 cursor-pointer">
               <i class="fa-solid fa-link mr-2"></i>Links
             </li>
-            <li @click="openComponent('AccounsettingsComponent')"
-              class="hover:bg-white hover:bg-opacity-10 rounded-lg px-2 py-3 cursor-pointer">
+            <li @click="handleMenuItemClick('AccounsettingsComponent')" class="hover:bg-white hover:bg-opacity-10 rounded-lg px-2 py-3 cursor-pointer">
               <i class="fa-solid fa-key fa-lg mr-2"></i>Password
             </li>
-            <li @click="openComponent('GeneralsettingsComponent')"
-              class="hover:bg-white hover:bg-opacity-10 rounded-lg px-2 py-3 cursor-pointer">
+            <li @click="handleMenuItemClick('GeneralsettingsComponent')" class="hover:bg-white hover:bg-opacity-10 rounded-lg px-2 py-3 cursor-pointer">
               <i class="fa-solid fa-gear fa-lg mr-2"></i>General
             </li>
-            <li @click="openComponent('PrivacysettingsPage')"
-              class="hover:bg-white hover:bg-opacity-10 rounded-lg px-2 py-3 cursor-pointer">
+            <li @click="handleMenuItemClick('PrivacysettingsPage')" class="hover:bg-white hover:bg-opacity-10 rounded-lg px-2 py-3 cursor-pointer">
               <i class="fa-solid fa-user-lock fa-lg mr-2"></i>Privacy
             </li>
           </ul>
         </aside>
-        <div :class="{ expanded: isAsideOpen }"
-          class="component-container mx-auto h-screen lg:h-screen w-full lg:w-3/4 mt-20 pt-10">
-          <EditinformationComponent v-if="currentComponent === 'EditinformationComponent'"
-            class="lg:w-3/4 lg:px-0 px-4 mx-auto" />
-          <EditsocialComponent v-if="currentComponent === 'EditsocialComponent'"
-            class="lg:w-3/4 lg:px-0 px-4 mx-auto" />
+        <div :class="{ expanded: isAsideOpen }" class="component-container mx-auto min-h-screen  w-full lg:w-3/4 mt-20 pt-10">
+          <EditinformationComponent v-if="currentComponent === 'EditinformationComponent'" class="lg:w-3/4 lg:px-0 px-4 mx-auto" />
+          <EditsocialComponent v-if="currentComponent === 'EditsocialComponent'" class="lg:w-3/4 lg:px-0 px-4 mx-auto" />
           <EditlinksComponent v-if="currentComponent === 'EditlinksComponent'" class="lg:w-3/4 lg:px-0 px-4 mx-auto" />
-          <AccounsettingsComponent v-if="currentComponent === 'AccounsettingsComponent'"
-            class="lg:w-3/4 lg:px-0 px-4 mx-auto" />
-          <GeneralsettingsComponent v-if="currentComponent === 'GeneralsettingsComponent'"
-            class="lg:w-3/4 lg:px-0 px-4 mx-auto" />
-          <PrivacysettingsPage v-if="currentComponent === 'PrivacysettingsPage'"
-            class="lg:w-3/4 lg:px-0 px-4 mx-auto" />
+          <AccounsettingsComponent v-if="currentComponent === 'AccounsettingsComponent'" class="lg:w-3/4 lg:px-0 px-4 mx-auto" />
+          <GeneralsettingsComponent v-if="currentComponent === 'GeneralsettingsComponent'" class="lg:w-3/4 lg:px-0 px-4 mx-auto" />
+          <PrivacysettingsPage v-if="currentComponent === 'PrivacysettingsPage'" class="lg:w-3/4 lg:px-0 px-4 mx-auto" />
         </div>
       </div>
     </div>
@@ -61,7 +51,6 @@
 </template>
 
 <script>
-import { ref } from "vue";
 import axios from "axios";
 import NavbarComponent from "@/components/NavbarComponent.vue";
 import EditinformationComponent from "@/components/EditprofilePage/EditinformationComponent.vue";
@@ -73,18 +62,6 @@ import PrivacysettingsPage from "@/components/SettingsPage/PrivacysettingsPage.v
 
 export default {
   name: "SettingsPage",
-  data() {
-    return {
-      hasAccess: true,
-    };
-  },
-  props: {
-    profile: {
-      type: Object,
-      default: null,
-    },
-  },
-
   components: {
     NavbarComponent,
     EditinformationComponent,
@@ -94,6 +71,19 @@ export default {
     AccounsettingsComponent,
     PrivacysettingsPage,
   },
+  data() {
+    return {
+      hasAccess: true,
+      isAsideOpen: true,
+      currentComponent:  "EditinformationComponent",
+    };
+  },
+  props: {
+    profile: {
+      type: Object,
+      default: null,
+    },
+  },
   created() {
     this.checkAccess();
   },
@@ -102,7 +92,6 @@ export default {
       return !!localStorage.getItem("token");
     },
   },
-
   methods: {
     checkAccess() {
       this.isLoading = true;
@@ -128,29 +117,21 @@ export default {
           this.isLoading = false;
         });
     },
-  },
+    toggleAside() {
+      this.isAsideOpen = !this.isAsideOpen;
+    },
+    handleMenuItemClick(componentName) {
+      this.openComponent(componentName);
 
-  setup() {
-    const isAsideOpen = ref(true); // Set default to true
-    const currentComponent = ref(
-      localStorage.getItem("currentComponent") || "EditinformationComponent"
-    ); // Default to 'EditinformationComponent'
-
-    function toggleAside() {
-      isAsideOpen.value = !isAsideOpen.value;
-    }
-
-    function openComponent(componentName) {
-      currentComponent.value = componentName;
+      // Close the aside on small screens
+      if (window.innerWidth < 1024) {
+        this.isAsideOpen = false;
+      }
+    },
+    openComponent(componentName) {
+      this.currentComponent = componentName;
       localStorage.setItem("currentComponent", componentName);
-    }
-
-    return {
-      isAsideOpen,
-      currentComponent,
-      toggleAside,
-      openComponent,
-    };
+    },
   },
 };
 </script>

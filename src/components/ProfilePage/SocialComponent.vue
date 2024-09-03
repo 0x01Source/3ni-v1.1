@@ -1,7 +1,7 @@
 <template>
   <div class="text-center mt-6">
     <div v-if="socialMediaLinks" class="py-2 px-4 mx-auto max-w-screen-xl">
-      <div class="grid grid-cols-6 md:grid-cols-6 lg:grid-cols-6 gap-6">
+      <div class="flex justify-center gap-4 ">
         <template v-for="link in socialMediaLinks" :key="link.id">
           <button class="transition ease-in-out delay-100 hover:-translate-y-1 hover:scale-110 duration-200">
             <a :href="getSocialMediaUrl(link.platform, link.username)" target="_blank">

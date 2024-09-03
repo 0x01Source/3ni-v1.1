@@ -1,13 +1,13 @@
 <template>
   <div class="text-center mt-6">
-    <div v-if="links.length" class="py-2 px-4 mx-auto max-w-screen-xl">
+    <div v-if="links.length" class="py-2 px-4  mx-auto ">
       <div class="grid grid-cols-1 md:grid-cols-1 lg:grid-cols-1 gap-4">
         <template v-for="link in links" :key="link.id">
           <button class="transition ease-in-out delay-100 hover:-translate-y-1 hover:scale-110 duration-200">
-            <a :href="link.url" target="_blank">
-              <div class="relative block overflow-hidden rounded-lg border-b-4 border-[#dfa027] shadow-lg">
+            <a :href="link.file ? link.file : link.url" target="_blank">
+              <div class="relative lg:w-1/2  mx-auto block overflow-hidden rounded-lg border-b-4 border-[#dfa027] shadow-lg">
                 <div v-if="link.icon">
-                  <img :src="link.icon" class="w-full h-48 object-cover" alt="" />
+                  <img :src="link.icon" class="w-full h-48 object-cover " alt="" />
                 </div>
                 <div v-if="!link.icon" class="bg-white h-16"></div>
                 <div class="absolute bottom-0 left-0 right-0 p-1">

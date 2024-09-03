@@ -1,14 +1,14 @@
 <template>
-  <div class="bg-black">
+  <div class="bg-black ">
     <div class="animate-in">
-      <div class="background-container bg-black bg-cover bg-center min-h-screen"
+      <div class="background-container  bg-black bg-cover bg-center min-h-screen"
         :style="{ backgroundImage: `url(${backgroundImage})` }">
         <div class="overlay"></div>
-        <div class="relative min-h-screen bg-cover bg-center">
+        <div class=" min-h-screen bg-cover bg-center">
           <section class="relative py-16">
-            <div class="container mx-auto px-4">
-              <div class="flex flex-col min-w-0 break-words w-full mb-6 rounded-3xl">
-                <div class="px-6 py-4 mx-auto">
+            <div class=" mx-auto px-4">
+              <div class="flex   w-full mb-6 rounded-3xl">
+                <div class="px-6 py-4 w-full lg:w-1/2 mx-auto">
                   <!-- Skeleton Loader -->
                   <div v-if="loading" class="w-full mt-5">
                     <div class="skeleton mx-auto h-40 w-40 bg-gray-300 shrink-0 rounded-full mb-2"></div>
@@ -30,10 +30,10 @@
                     <navbar-component v-if="isLoggedIn" class="bg-black bg-opacity-30"></navbar-component>
                     <div class="mt-5">
                       <!-- Show this div only if the logged-in user is viewing their own profile -->
-                      <div v-if="isOwnProfile" class="absolute">
+                      <div id="backgroundChange" v-if="isLoggedIn && profile.slug === userData.username" class="absolute  lg:pl-40 md:pl-20">
                         <!-- Open Modal Button -->
                         <button
-                          class="btn h-12 w-12 ml-8 lg:mt-2 lg:ml-20 p-0 rounded-full text-black bg-gradient-to-r from-teal-200 to-lime-200 hover:bg-gradient-to-l hover:from-teal-200 hover:to-lime-200 focus:ring-4 focus:outline-none focus:ring-lime-200"
+                          class="btn h-12 w-12 ml-8  p-0 rounded-full text-black bg-gradient-to-r from-teal-200 to-lime-200 hover:bg-gradient-to-l hover:from-teal-200 hover:to-lime-200 focus:ring-4 focus:outline-none focus:ring-lime-200"
                           @click="showModal">
                           <i class="fa-solid fa-palette fa-2xl"></i>
                         </button>
@@ -73,6 +73,7 @@
                         :socialMediaLinks="profile.social_media_links"></social-component>
                       <links-component v-if="profile && profile.links" :links="profile.links"></links-component>
                     </div>
+                    <footerprofile-component v-if="!isLoggedIn"></footerprofile-component>
                   </div>
 
                   <!-- Handle No Data Case -->
@@ -97,6 +98,7 @@ import NavbarComponent from "@/components/NavbarComponent.vue";
 import InformationComponent from "@/components/ProfilePage/InformationComponent.vue";
 import SocialComponent from "@/components/ProfilePage/SocialComponent.vue";
 import LinksComponent from "@/components/ProfilePage/LinksComponent.vue";
+import FooterprofileComponent from "@/components/ProfilePage/FooterprofileComponent.vue";
 
 export default {
   components: {
@@ -104,6 +106,7 @@ export default {
     InformationComponent,
     SocialComponent,
     LinksComponent,
+    FooterprofileComponent,
   },
   data() {
     return {
@@ -125,7 +128,6 @@ export default {
         require("@/assets/background/stars.jpg"),
       ],
       selectedImage: localStorage.getItem("backgroundImage") || "",
-      isOwnProfile: false,
     };
   },
   created() {

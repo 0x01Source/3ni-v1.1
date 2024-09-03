@@ -68,8 +68,18 @@
             Login
           </button>
         </div>
-
-        <div class="mx-auto justify-center flex py-2 text-sm underline text-gray-600">
+        <div class="mx-auto flex justify-center  ">
+<button class="btn bg-black border-none text-[#dfa027] hover:bg-black " onclick="my_modal_3.showModal()">Forget Password</button>
+<dialog id="my_modal_3" class="modal ">
+  <div class="modal-box bg-black text-white">
+    <form method="dialog ">
+      <button class="btn btn-sm btn-circle btn-ghost absolute right-2 top-2 hover:bg-red-600">✕</button>
+    </form>
+    <reset-email></reset-email>
+  </div>
+</dialog>
+</div>
+        <div class="mx-auto justify-center flex  text-sm underline text-gray-600">
           <router-link to="/signup"><a>I want to Register .. Signup</a></router-link>
         </div>
       </div>
@@ -97,11 +107,13 @@
 <script>
 import axios from "axios";
 import FooterComponent from "../FooterComponent.vue";
+import ResetEmail from "./ResetEmail.vue";
 
 export default {
   name: "SignIn",
   components: {
     FooterComponent,
+    ResetEmail,
   },
   data() {
     return {
